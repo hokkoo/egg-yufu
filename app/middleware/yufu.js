@@ -1,6 +1,6 @@
 'use strict';
 
-var decrypt = require('Base64');
+var decrypt = require('Base64').atob;
 
 var ok = () => true;
 
@@ -39,25 +39,34 @@ module.exports = (options = {}) => {
 				rtx: default_user,
 			};
 			try {
+				const error = new Error('请求头错误');
 				if (verifyHeader(headers) !== true) {
-					throw new Error('请求头错误');
+					throw error;
 				}
 				if (!uidKey || !userinfoKey) {
 					ctx.yufu = defaultUser;
 				}
-				const uid = decrypt(headers[uidKey]);
-				const userinfo = decrypt(headers[userinfoKey]);
-				if (!uid || !userinfo) {
+				const _uid = headers[uidKey];
+				const _userinfo = headers[userinfoKey];
+				if (!_uid || !_userinfo) {
 					ctx.yufu = defaultUser;
+				} else {
+					try {
+						const uid = decrypt(_uid);
+						const userinfo = JSON.parse(decrypt(_userinfo));
+						if (verifyUser({ uid, userinfo }) !== true) {
+							throw error;
+						}
+						ctx.yufu = {
+							id: userinfo.user_id || uid,
+							rtx: uid,
+							userinfo,
+						};
+					} catch (_err) {
+						throw error;
+					}
 				}
-				if (verifyUser({ uid, userinfo }) !== true) {
-					throw new Error('请求头错误');
-				}
-				ctx.yufu = {
-					id: userinfo.user_id || uid,
-					rtx: uid,
-					userinfo,
-				};
+
 			} catch (err) {
 				handleError(Object.assign({}, err, { ctx }));
 				return;

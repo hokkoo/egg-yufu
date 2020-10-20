@@ -1,10 +1,7 @@
 {
 	"name": "egg-yufu",
-	"version": "0.0.1",
-	"description": "egg yufu	plugin",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
+	"version": "0.0.2",
+	"description": "egg yufu plugin",
 	"author": "tonyhe",
 	"license": "MIT",
 	"eggPlugin": {
