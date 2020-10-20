@@ -2,11 +2,10 @@
 	"name": "egg-yufu",
 	"version": "0.0.1",
 	"description": "egg yufu	plugin",
-	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
-	"author": "",
+	"author": "tonyhe",
 	"license": "MIT",
 	"eggPlugin": {
 		"name": "yufu"
