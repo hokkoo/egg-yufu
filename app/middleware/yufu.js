@@ -61,6 +61,7 @@ module.exports = (options = {}) => {
 							id: userinfo.user_id || uid,
 							rtx: uid,
 							userinfo,
+							headers,
 						};
 					} catch (_err) {
 						throw error;
